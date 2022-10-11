@@ -1,0 +1,94 @@
+button {
+  border: none;
+  background-color: var(--blue);
+  color: var(--darkBlue);
+  border-radius: .15em;
+  width: 40px;
+  height: 30px;
+}
+
+button:disabled {
+  background-color: var(--darkBlue);
+  color: var(--blue);
+}
+
+button:active {
+  background-color: var(--darkBlue);
+  color: var(--white);
+}
+
+.btn-operator {
+  font-size: 1.5em;
+  line-height: 50%;
+}
+
+#btn-equals {
+  background-color: var(--black);
+  color: var(--white);
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 100%;
+  font-size: 2em;
+  line-height: 50%;
+}
+
+#btn-equals:active {
+  background-color: var(--equalsToggled);
+}
+
+
+.btn-warn {
+  background-color: var(--red);
+  color: var(--white);
+}
+
+.btn-warn:disabled {
+  background-color: var(--darkRed);
+  color: var(--white);
+}
+
+.btn-warn:active {
+  background-color: var(--darkRed);
+  color: var(--white);
+}
+
+.diceInput {
+  display: inline;
+}
+
+.diceInput>input {
+  outline: none;
+  border-bottom: 1px solid var(--black);
+  border-width: 0 0 1px 0;
+  border-style: none none solid none;
+  background-color: transparent;
+  text-align: center;
+  width: 2ch;
+  resize: horizontal;
+  overflow: auto;
+}
+
+.display {
+  border-radius: 25px;
+  background: var(--screen);
+  padding: 20px;
+  width: 25em;
+  max-width: 25em;
+  margin-bottom: 10px;
+  font-family: 'Consolas', monospace;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: space-around;
+  align-items: flex-stretch;
+  text-align: center;
+}
+
+.mainCalculator {
+  background-color: var(--darkGrey);
+  border-radius: .75em;
+  padding: 15px;
+}
