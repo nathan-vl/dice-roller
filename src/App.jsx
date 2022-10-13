@@ -1,73 +1,11 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import AddDiceButton from './AddDiceButton';
+import DiceInput from './DiceInput';
+import { rollDice, summation } from './utils';
 import './App.css';
-
-function randomInt(max) {
-  return Math.floor(Math.random() * max + 1);
-}
-
-function summation(values) {
-  return values.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-}
 
 function charSignal(sum) {
   return sum ? '+' : '-';
-}
-
-function rollDice({ sum, quantity, sides }) {
-  let total = 0;
-  for (let index = 0; index < quantity; index += 1) {
-    total += randomInt(sides);
-  }
-  return total * (sum ? 1 : -1);
-}
-
-function AddDice({ sides, callback }) {
-  return (
-    <button
-      className="btn"
-      type="button"
-      onClick={() => { callback(1, sides === '%' ? 100 : sides); }}
-    >
-      d
-      {sides}
-    </button>
-  );
-}
-
-function DisplayDice({
-  signal, sides, quantity, onChangeSides, onChangeQuantity,
-}) {
-  return (
-    <div className="diceInput">
-      {signal ?? ''}
-      <input
-        type="text"
-        value={quantity}
-        // maxLength="2"
-        onChange={(e) => {
-          if (e.target.value.length === 0) {
-            onChangeQuantity('');
-          } else if (!Number.isNaN(e.target.value) && e.target.value[0] !== '-') {
-            onChangeQuantity(parseInt(e.target.value, 10));
-          }
-        }}
-      />
-      d
-      <input
-        type="text"
-        value={sides}
-        onChange={(e) => {
-          if (e.target.value.length === 0) {
-            onChangeSides('');
-          } else if (!Number.isNaN(e.target.value) && e.target.value[0] !== '-') {
-            onChangeSides(parseInt(e.target.value, 10));
-          }
-        }}
-      />
-    </div>
-  );
 }
 
 function newDice(sum, quantity, sides) {
@@ -85,13 +23,13 @@ function App() {
     setDices([...dices, newDice(sum, quantity, sides)]);
   };
 
-  const diceButtons = [2, 4, 6, 8, 10, 12, 20, '%', 'X'].map((i, index) => (
-    <AddDice key={index} sides={i} callback={addDice} />
+  const diceButtons = [2, 4, 6, 8, 10, 12, 20, '%', 'X'].map((i) => (
+    <AddDiceButton key={i} sides={i} onClick={addDice} />
   ));
 
   const diceComponents = dices.map((i, index) => (
-    <DisplayDice
-      key={index}
+    <DiceInput
+      key={i}
       signal={(index === 0 && i.sum) ? '' : charSignal(i.sum)}
       quantity={i.quantity}
       sides={i.sides}

@@ -1,16 +1,16 @@
 :root {
-    --blue: #f5efee;
-    --darkBlue: #112D4E;
-    --white: #EEEEEE;
-    --screen: #8bac0f;
-    --white_ice: #fffafa;
-    --black: #222831;
-    --darkGrey: #7a8185;
-    --red: #8f3469;
-    --darkRed: #551e3a;
-    --equalsToggled: #010102;
+  --blue: #f5efee;
+  --darkBlue: #112D4E;
+  --white: #EEEEEE;
+  --screen: #8bac0f;
+  --white_ice: #fffafa;
+  --black: #222831;
+  --darkGrey: #7a8185;
+  --red: #8f3469;
+  --darkRed: #551e3a;
+  --equalsToggled: #010102;
 }
 
 body {
-    background-color: var(--black);
+  background-color: var(--black);
 }
