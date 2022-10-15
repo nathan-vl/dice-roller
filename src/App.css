@@ -1,13 +1,16 @@
 #mainContent {
-  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
 }
 
 #resultDice {
   background-color: var(--darkColor);
   border: 2px solid var(--accentColor);
   color: var(--brightColor);
-  width: 25em;
   padding: .5em 1em;
+  width: 100%;
 }
 
 #diceInputs {
@@ -15,13 +18,14 @@
   flex-wrap: nowrap;
   height: 5em;
   overflow-x: scroll;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 #result {
   height: 2em;
   font-size: 2em;
   text-align: right;
+  width: 100%;
 }
 
 .diceInput {
@@ -32,7 +36,10 @@
 }
 
 #options {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  gap: 1rem;
 }
 
 #dicesOptions {

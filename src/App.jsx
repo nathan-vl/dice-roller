@@ -24,8 +24,20 @@ function App() {
     setDices([...dices, newDice(sum, quantity, sides)]);
   };
 
+  const setPlusSignal = () => { setSum(true); };
+  const addDiceInput = (quantity, sides) => { addDice(quantity, sides); setPlusSignal(); };
+
+  const deleteLastDice = () => { setDices(dices.slice(0, -1)); };
+  const reset = () => { setDices([]); setSum(true); setResult(null); };
+  const setMinusSignal = () => { setSum(false); };
+  const calcDice = () => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); };
+
   const diceButtons = [2, 4, 6, 8, 10, 12, 20, '%', 'X'].map((i) => (
-    <AddDiceButton key={i} sides={i} onClick={addDice} />
+    <AddDiceButton
+      key={i}
+      sides={i}
+      onClick={addDiceInput}
+    />
   ));
 
   const diceInputs = dices.map((i, index) => (
@@ -45,12 +57,6 @@ function App() {
     />
   ));
 
-  const reset = () => { setDices([]); setSum(true); setResult(null); };
-  const deleteLatestDice = () => { setDices(dices.slice(0, -1)); };
-  const setPlusSignal = () => { setSum(true); };
-  const setMinusSignal = () => { setSum(false); };
-  const calcDice = () => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); };
-
   return (
     <div id="mainContent">
       <div id="resultDice">
@@ -68,11 +74,11 @@ function App() {
         </div>
 
         <div id="operations">
-          <button type="button" onClick={deleteLatestDice}>del</button>
+          <button type="button" onClick={deleteLastDice}>←</button>
           <button type="button" onClick={reset}>c</button>
-          <button type="button" disabled={sum} onClick={setPlusSignal}>+</button>
-          <button type="button" disabled={!sum} onClick={setMinusSignal}>-</button>
-          <button id="equalsOperator" type="button" onClick={calcDice}>=</button>
+          <button type="button" onClick={setPlusSignal}>+</button>
+          <button type="button" onClick={setMinusSignal}>-</button>
+          <button id="equalsOperator" type="button" onClick={() => { calcDice(); setPlusSignal(); }}>=</button>
         </div>
       </div>
     </div>

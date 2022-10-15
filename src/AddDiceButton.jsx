@@ -6,7 +6,7 @@ export default function AddDiceButton({ sides, onClick }) {
       type="button"
       onClick={() => { onClick(1, sides === '%' ? 100 : sides); }}
     >
-      d
+      D
       {sides}
     </button>
   );

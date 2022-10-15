@@ -14,7 +14,7 @@ export default function DiceInput({
         maxValue={999}
         onChange={onChangeQuantity}
       />
-      d
+      D
       <NumberInput
         className="numberInput"
         value={sides}
