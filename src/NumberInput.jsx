@@ -7,6 +7,7 @@ export default function NumberInput({
 }) {
   return (
     <input
+      style={{ width: `${Math.max(1, Number(value).toString().length)}ch` }}
       className={className}
       type="number"
       value={Number(value).toString()}

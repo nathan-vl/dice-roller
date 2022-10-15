@@ -4,17 +4,18 @@ import DiceInput from './DiceInput';
 import { rollDice, summation } from './utils';
 import './App.css';
 
-function charSignal(sum) {
-  return sum ? '+' : '-';
-}
-
 function newDice(sum, quantity, sides) {
   return { sum, quantity, sides };
 }
 
 function App() {
+  function charSignal(index, sum) {
+    if (index === 0 && sum) { return ''; }
+    if (sum) { return '+'; }
+    return '-';
+  }
+
   const [dices, setDices] = useState([]);
-  // const [extra, setExtra] = useState(0);
 
   const [sum, setSum] = useState(true);
   const [result, setResult] = useState(null);
@@ -27,10 +28,10 @@ function App() {
     <AddDiceButton key={i} sides={i} onClick={addDice} />
   ));
 
-  const diceComponents = dices.map((i, index) => (
+  const diceInputs = dices.map((i, index) => (
     <DiceInput
-      key={i}
-      signal={(index === 0 && i.sum) ? '' : charSignal(i.sum)}
+      key={index}
+      signal={charSignal(index, i.sum)}
       quantity={i.quantity}
       sides={i.sides}
       onChangeQuantity={(quantity) => {
@@ -44,68 +45,34 @@ function App() {
     />
   ));
 
+  const reset = () => { setDices([]); setSum(true); setResult(null); };
+  const deleteLatestDice = () => { setDices(dices.slice(0, -1)); };
+  const setPlusSignal = () => { setSum(true); };
+  const setMinusSignal = () => { setSum(false); };
+  const calcDice = () => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); };
+
   return (
-    <div className="wrapper">
-      <div className="mainCalculator">
-        <div className="display">
-          <div style={{ overflowY: 'scroll', maxHeight: '9ch', minHeight: '9ch' }}>
-            {diceComponents}
-          </div>
-          <hr />
-          <div style={{ textAlign: 'right', minHeight: '3ch' }}>
-            {(result !== null) ? `= ${result}` : ''}
-          </div>
+    <div id="mainContent">
+      <div id="resultDice">
+        <div id="diceInputs">
+          {diceInputs}
+        </div>
+        <div id="result">
+          {(result !== null) ? `= ${result}` : ''}
+        </div>
+      </div>
+
+      <div id="options">
+        <div id="dicesOptions">
+          {diceButtons}
         </div>
 
-        <div style={{
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          gap: '.5em',
-        }}
-        >
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, max-content)',
-            rowGap: '.5em',
-            columnGap: '.5em',
-          }}
-          >
-            {diceButtons}
-          </div>
-
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 40px)',
-            rowGap: '.5em',
-            columnGap: '.5em',
-          }}
-          >
-            <button
-              className="btn-warn btn-operator"
-              type="button"
-              onClick={() => { setDices(dices.slice(0, -1)); }}
-            >
-              ⇦
-            </button>
-            <button
-              className="btn-warn btn-operator"
-              type="button"
-              onClick={() => { setDices([]); setSum(true); setResult(null); }}
-            >
-              c
-            </button>
-            <button className="btn btn-operator" type="button" disabled={sum} onClick={() => { setSum(true); }}>+</button>
-            <button className="btn btn-operator" type="button" disabled={!sum} onClick={() => { setSum(false); }}>-</button>
-            <button
-              id="btn-equals"
-              type="button"
-              onClick={() => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); }}
-            >
-              =
-            </button>
-          </div>
+        <div id="operations">
+          <button type="button" onClick={deleteLatestDice}>del</button>
+          <button type="button" onClick={reset}>c</button>
+          <button type="button" disabled={sum} onClick={setPlusSignal}>+</button>
+          <button type="button" disabled={!sum} onClick={setMinusSignal}>-</button>
+          <button id="equalsOperator" type="button" onClick={calcDice}>=</button>
         </div>
       </div>
     </div>

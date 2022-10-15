@@ -19,7 +19,7 @@ export default function DiceInput({
         className="numberInput"
         value={sides}
         minValue={0}
-        maxValue={100}
+        maxValue={999}
         onChange={onChangeSides}
       />
     </div>
