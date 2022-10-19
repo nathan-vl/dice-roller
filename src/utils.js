@@ -6,10 +6,10 @@ export function summation(values) {
   return values.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
 }
 
-export function rollDice({ sum, quantity, sides }) {
-  let total = 0;
+export function rollDice({ quantity, sides }) {
+  const total = [];
   for (let index = 0; index < quantity; index += 1) {
-    total += randomInt(sides);
+    total.push(randomInt(sides));
   }
-  return total * (sum ? 1 : -1);
+  return total;
 }

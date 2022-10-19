@@ -6,9 +6,9 @@
 }
 
 #resultDice {
-  background-color: var(--darkColor);
+  background-color: var(--brightColor);
   border: 2px solid var(--accentColor);
-  color: var(--brightColor);
+  color: var(--darkColor);
   padding: .5em 1em;
   width: 100%;
 }
@@ -49,13 +49,14 @@
 
 #dicesOptions>button,
 #operations>button {
-  background-color: var(--darkColor);
-  border: 2px solid var(--accentColor);
+  background-color: var(--accentColor);
+  border: 2px solid var(--brightColor);
   border-radius: 5px;
   color: var(--brightColor);
   font-size: 2em;
   margin: .2em;
   padding: .1em .3em;
+  cursor: pointer;
 }
 
 #dicesOptions>button:active,
@@ -88,7 +89,7 @@
   background-color: transparent;
   border: none;
   border-bottom: .1em solid var(--accentColor);
-  color: var(--brightColor);
+  color: var(--darkColor);
   font-size: 1em;
   outline: none;
 }

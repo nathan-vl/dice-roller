@@ -2,6 +2,7 @@
   --brightColor: #eeeeee;
   --darkColor: #111111;
   --accentColor: #2b4ecb;
+  --darkAccentColor: #2c273f;
 }
 
 * {
@@ -11,5 +12,5 @@
 }
 
 body {
-  background-color: var(--darkColor);
+  background-color: var(--brightColor);
 }
