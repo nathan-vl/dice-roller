@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import AddDiceButton from './AddDiceButton';
 import DiceInput from './DiceInput';
 import { rollDice, summation } from './utils';
 import './App.css';
@@ -33,11 +32,14 @@ function App() {
   const calcDice = () => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); };
 
   const diceButtons = [2, 4, 6, 8, 10, 12, 20, '%', 'X'].map((i) => (
-    <AddDiceButton
+    <button
       key={i}
-      sides={i}
-      onClick={addDiceInput}
-    />
+      type="button"
+      onClick={() => { addDiceInput(1, i === '%' ? 100 : i); }}
+    >
+      d
+      {i}
+    </button>
   ));
 
   const diceInputs = dices.map((i, index) => (
