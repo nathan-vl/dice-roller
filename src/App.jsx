@@ -3,32 +3,27 @@ import DiceInput from './DiceInput';
 import { rollDice, summation } from './utils';
 import './App.css';
 
-function newDice(sum, quantity, sides) {
-  return { sum, quantity, sides };
+function newDice(signal, quantity, sides) {
+  return { signal, quantity, sides };
 }
 
 function App() {
-  function charSignal(index, sum) {
-    if (index === 0 && sum) { return ''; }
-    if (sum) { return '+'; }
-    return '-';
-  }
-
   const [dices, setDices] = useState([]);
 
-  const [sum, setSum] = useState(true);
+  const [signal, setSignal] = useState('+');
   const [result, setResult] = useState(null);
 
   const addDice = (quantity, sides) => {
-    setDices([...dices, newDice(sum, quantity, sides)]);
+    setDices([...dices, newDice(signal, quantity, sides)]);
   };
 
-  const setPlusSignal = () => { setSum(true); };
+  const setPlusSignal = () => { setSignal('+'); };
+  const setMinusSignal = () => { setSignal('-'); };
+
   const addDiceInput = (quantity, sides) => { addDice(quantity, sides); setPlusSignal(); };
 
   const deleteLastDice = () => { setDices(dices.slice(0, -1)); };
-  const reset = () => { setDices([]); setSum(true); setResult(null); };
-  const setMinusSignal = () => { setSum(false); };
+  const reset = () => { setDices([]); setPlusSignal(); setResult(null); };
   const calcDice = () => { if (dices.length > 0) setResult(summation(dices.map(rollDice))); };
 
   const diceButtons = [2, 4, 6, 8, 10, 12, 20, '%', 'X'].map((i) => (
@@ -45,7 +40,7 @@ function App() {
   const diceInputs = dices.map((i, index) => (
     <DiceInput
       key={index}
-      signal={charSignal(index, i.sum)}
+      signal={(index === 0 && i.signal === '+') ? '' : i.signal}
       quantity={i.quantity}
       sides={i.sides}
       onChangeQuantity={(quantity) => {
