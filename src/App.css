@@ -5,20 +5,12 @@
   margin: 1em;
 }
 
-#resultDice {
+#diceFrame {
   background-color: var(--brightColor);
   border: 2px solid var(--accentColor);
   color: var(--darkColor);
   padding: .5em 1em;
   width: 100%;
-}
-
-#diceInputs {
-  display: flex;
-  flex-wrap: nowrap;
-  height: 5em;
-  overflow-x: scroll;
-  justify-content: flex-start;
 }
 
 #result {
@@ -57,28 +49,26 @@
   margin: .2em;
   padding: .1em .3em;
   cursor: pointer;
+  width: 3em;
+}
+
+#operations>button {
+  max-height: 27%;
 }
 
 #dicesOptions>button:active,
 #operations>button:active {
-  background-color: var(--accentColor);
+  background-color: var(--darkAccentColor);
   border-color: var(--brightColor);
-  color: var(--brightColor);
-}
-
-#operations>button:disabled {
-  background-color: gray;
   color: var(--darkColor);
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+  -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+  box-shadow: inset 0px 0px 5px #c1c1c1;
 }
 
 #operations {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-#equalsOperator {
-  grid-column-start: 1;
-  grid-column-end: 3;
+  display: flex;
+  flex-direction: column;
 }
 
 .numberInput {
@@ -90,6 +80,6 @@
   border: none;
   border-bottom: .1em solid var(--accentColor);
   color: var(--darkColor);
-  font-size: 1em;
+  font-size: 2em;
   outline: none;
 }
