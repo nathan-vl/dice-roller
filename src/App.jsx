@@ -1,162 +1,105 @@
 import React, { useState } from 'react';
 import './App.css';
-import IncreasingInput from './IncreasingInput';
-import { rollDice, summation } from './utils';
 
-function toTokens(dicesInput) {
-  if (dicesInput === '') {
-    return [];
-  }
-
-  const filteredDiceInput = Array.from(dicesInput).filter((i) => i !== ' ');
-
-  const result = [];
-  let current = '';
-  filteredDiceInput.forEach((c) => {
-    if (c === '+') {
-      if (current.length > 0) {
-        result.push(current);
-      }
-
-      current = '';
-    } else if (c === '-') {
-      if (current.length > 0) {
-        result.push(current);
-      }
-
-      current = '-';
-    } else {
-      current += c;
-    }
-  });
-
-  result.push(current);
-
-  return result;
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function parseNumber(n) {
-  const q = Number.parseInt(n, 10);
-  if (Number.isNaN(q)) {
-    return null;
-  }
+const diceRoll = (sides) => randomInt(1, sides);
 
-  return q;
+function fudgeRoll() {
+  const possibleResults = ['-', ' ', '+'];
+  const { length } = possibleResults;
+  return possibleResults[Math.floor(Math.random() * length)];
 }
 
-function parseDice(diceToken) {
-  if (!diceToken.includes('d')) {
-    return null;
-  }
-
-  const [parseQuantity, parseSides, rest] = diceToken.split('d');
-
-  if (rest !== undefined) {
-    return null;
-  }
-
-  const signal = (parseQuantity[0] === '-') ? -1 : 1;
-  const quantity = Math.abs(parseNumber(parseQuantity));
-  const sides = parseNumber(parseSides);
-
-  return { signal, quantity, sides };
+function newDice(name, value) {
+  return { name, value };
 }
 
-function parseDiceTokens(tokens) {
-  const numberRegex = /-?\d+/g;
-  const diceRegex = /(-?\d+)?[dD]\d+/g;
-
-  let extraValue = 0;
-  const dices = [];
-  tokens.forEach((token) => {
-    if (token.match(diceRegex)) {
-      dices.push(parseDice(token));
-    } else if (token.match(numberRegex)) {
-      extraValue += Number.parseInt(token, 10);
-    } else {
-      dices.push(null);
-    }
-  });
-
-  return { dices, extraValue };
+function Dice({ className, value, onClick }) {
+  return (
+    <div
+      className={`dice ${className}`}
+      onClick={onClick}
+      onKeyUp={onClick}
+      role="button"
+      tabIndex={0}
+    >
+      {value}
+    </div>
+  );
 }
 
-function valueSignal(value, index) {
-  if (value < 0) {
-    return '-';
-  }
-
-  if (index === 0) {
-    return '';
-  }
-
-  return '+';
-}
-
-function calcDice(diceInput) {
-  const { dices, extraValue } = parseDiceTokens(toTokens(diceInput));
-
-  const rolledDices = dices.map(rollDice);
-
-  let formattedDices = `${valueSignal(dices[0].signal, 0)}[${rolledDices[0]}]`;
-
-  for (let i = 1; i < rolledDices.length; i += 1) {
-    formattedDices += ` ${valueSignal(dices[i].signal, i)} [${rolledDices[i]}]`;
-  }
-
-  let formattedExtraValue = '';
-  if (extraValue >= 0) {
-    formattedExtraValue = ` + ${extraValue}`;
-  } else {
-    formattedExtraValue = ` - ${-extraValue}`;
-  }
-
-  let result = extraValue;
-  rolledDices.forEach((dice, index) => { result += summation(dice) * dices[index].signal; });
-
-  return `${formattedDices}${formattedExtraValue} = ${result}`;
-}
+const DICES = {
+  d4: () => diceRoll(4),
+  d6: () => diceRoll(6),
+  d8: () => diceRoll(8),
+  d10: () => diceRoll(10),
+  d12: () => diceRoll(12),
+  d20: () => diceRoll(20),
+  'd%': () => diceRoll(100),
+  dF: fudgeRoll,
+};
 
 function App() {
-  const [dicesInput, setDicesInput] = useState('');
-  const [result, setResult] = useState('');
+  const [dices, setDices] = useState([]);
 
-  const reset = () => { setDicesInput(''); setResult(''); };
+  const clearDices = () => { setDices([]); };
+  const rerollDices = () => {
+    setDices((current) => current.map((dice) => (newDice(dice.name, DICES[dice.name]()))));
+  };
 
-  const diceButtons = [2, 4, 6, 8, 10, 12, 20, 100].map((i) => (
+  const diceButtons = Object.keys(DICES).map((diceKey) => (
     <button
-      key={i}
+      key={diceKey}
       type="button"
-      onClick={() => { setDicesInput(`${dicesInput}+1d${i}`); }}
+      onClick={() => {
+        setDices((current) => [...current, newDice(diceKey, DICES[diceKey]())]);
+      }}
     >
-      d
-      {i}
+      {diceKey}
     </button>
   ));
 
-  return (
-    <div id="mainContent">
-      <div id="diceFrame">
-        <IncreasingInput
-          className="numberInput"
-          width={50}
-          value={dicesInput}
-          onChange={(e) => { setDicesInput(e.target.value); }}
-        />
+  const visualDice = dices.map((dice, i) => (
+    <Dice
+      key={i}
+      className={dice.name}
+      value={dice.value}
+      onClick={() => { setDices((current) => current.filter((_, j) => i !== j)); }}
+    />
+  ));
 
-        <div id="result">
-          {result}
+  return (
+    <div>
+      <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <button type="button" onClick={clearDices}>c</button>
+          <button type="button" onClick={rerollDices}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M5.463 4.433A9.961 9.961 0 0 1 12 2c5.523 0 10 4.477 10 10 0 2.136-.67 4.116-1.81 5.74L17 12h3A8 8 0 0 0 6.46 6.228l-.997-1.795zm13.074 15.134A9.961 9.961 0 0 1 12 22C6.477 22 2 17.523 2 12c0-2.136.67-4.116 1.81-5.74L7 12H4a8 8 0 0 0 13.54 5.772l.997 1.795z" />
+            </svg>
+          </button>
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, 4em)',
+          width: '100%',
+        }}
+        >
+          {diceButtons}
         </div>
       </div>
 
-      <div id="options">
-        <div id="dicesOptions">
-          {diceButtons}
-        </div>
-        <div id="operations">
-          <button type="button" onClick={reset}>c</button>
-          <button id="equalsOperator" type="button" onClick={() => { setResult(calcDice(dicesInput)); }}>=</button>
-        </div>
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        minHeight: '5em',
+      }}
+      >
+        {visualDice}
       </div>
     </div>
   );

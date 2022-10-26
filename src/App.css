@@ -1,85 +1,76 @@
-#mainContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 1em;
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 1.08em;
 }
 
-#diceFrame {
-  background-color: var(--brightColor);
-  border: 2px solid var(--accentColor);
-  color: var(--darkColor);
-  padding: .5em 1em;
-  width: 100%;
-}
-
-#result {
-  height: 2em;
-  font-size: 2em;
-  text-align: right;
-  width: 100%;
-}
-
-.diceInput {
-  display: inline;
-  font-size: 2em;
-  min-width: max-content;
-  width: max-content;
-}
-
-#options {
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(auto-fill, 1fr);
-  gap: 1rem;
-}
-
-#dicesOptions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-#dicesOptions>button,
-#operations>button {
-  background-color: var(--accentColor);
-  border: 2px solid var(--brightColor);
-  border-radius: 5px;
-  color: var(--brightColor);
-  font-size: 2em;
-  margin: .2em;
-  padding: .1em .3em;
+button {
+  background-color: white;
+  border: 1px solid black;
   cursor: pointer;
-  width: 3em;
+  padding: 5px 5px;
+  margin: 10px;
+  height: min-content;
 }
 
-#operations>button {
-  max-height: 27%;
-}
-
-#dicesOptions>button:active,
-#operations>button:active {
-  background-color: var(--darkAccentColor);
-  border-color: var(--brightColor);
-  color: var(--darkColor);
-  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
-  -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
-  box-shadow: inset 0px 0px 5px #c1c1c1;
-}
-
-#operations {
-  display: flex;
-  flex-direction: column;
-}
-
-.numberInput {
-  -moz-appearance: textfield;
-  -webkit-appearance: none;
-  appearance: textfield;
-
-  background-color: transparent;
-  border: none;
-  border-bottom: .1em solid var(--accentColor);
-  color: var(--darkColor);
+.dice {
+  line-height: 80px;
+  width: 80px;
+  height: 80px;
+  max-width: 80px;
+  max-height: 80px;
+  user-select: none;
+  text-align: center;
+  cursor: pointer;
+  margin: 10px;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 2em;
-  outline: none;
+}
+
+.d4 {
+  background-color: blue;
+  color: white;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.d6 {
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid black;
+  color: black;
+}
+
+.d8 {
+  background-color: blue;
+  color: white;
+  clip-path: polygon(50% 0%, 0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%);
+}
+
+.d10 {
+  background-color: blue;
+  color: white;
+}
+
+.d12 {
+  background-color: blue;
+  color: white;
+}
+
+.d20 {
+  background-color: red;
+  color: white;
+  clip-path: polygon(50% 0%, 0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%);
+}
+
+.d100 {
+  background-color: blue;
+  color: white;
+}
+
+.dF {
+  background-color: white;
+  border-radius: 4px;
+  border: 2px solid black;
+  color: black;
+  font-size: 3em;
 }
