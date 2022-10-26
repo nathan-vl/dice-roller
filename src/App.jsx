@@ -38,7 +38,7 @@ const DICES = {
   d10: () => diceRoll(10),
   d12: () => diceRoll(12),
   d20: () => diceRoll(20),
-  'd%': () => diceRoll(100),
+  d100: () => diceRoll(100),
   dF: fudgeRoll,
 };
 
