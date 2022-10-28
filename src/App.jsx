@@ -16,6 +16,11 @@ function fudgeRoll() {
   return possibleResults[Math.floor(Math.random() * length)];
 }
 
+function fudgeToInt(n) {
+  const possibleResults = { '-': -1, ' ': 0, '+': 1 };
+  return possibleResults[n];
+}
+
 function newDice(name, value) {
   return { name, value };
 }
@@ -53,6 +58,12 @@ function App() {
     setDices((current) => current.map((dice) => (newDice(dice.name, DICES[dice.name]()))));
   };
 
+  const calcTotal = () => {
+    const values = dices.map((dice) => ((dice.name === 'dF') ? fudgeToInt(dice.value) : dice.value));
+    const sum = values.reduce((total, current) => total + current);
+    return sum;
+  };
+
   const diceButtons = Object.keys(DICES).map((diceKey) => (
     <button
       key={diceKey}
@@ -74,6 +85,14 @@ function App() {
     />
   ));
 
+  const totalSum = dices.length === 0 ? null : (
+    <div id="totalSum">
+      Total:
+      {' '}
+      {calcTotal()}
+    </div>
+  );
+
   return (
     <>
       <div id="mainButtons">
@@ -87,6 +106,8 @@ function App() {
       </div>
 
       <div id="dices">{visualDice}</div>
+
+      {totalSum}
     </>
   );
 }
