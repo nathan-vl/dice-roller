@@ -1,43 +1,11 @@
 import React, { useState } from 'react';
+import Dice from './Dice';
+import DiceButton from './DiceButton';
+import {
+  calcTotal, diceRoll, fudgeRoll, newDice,
+} from './utils';
 import './App.css';
 import refreshSvg from './assets/refresh.svg';
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function diceRoll(sides) {
-  return randomInt(1, sides);
-}
-
-function fudgeRoll() {
-  const possibleResults = ['-', ' ', '+'];
-  const { length } = possibleResults;
-  return possibleResults[Math.floor(Math.random() * length)];
-}
-
-function fudgeToInt(n) {
-  const possibleResults = { '-': -1, ' ': 0, '+': 1 };
-  return possibleResults[n];
-}
-
-function newDice(name, value) {
-  return { name, value };
-}
-
-function Dice({ className, value, onClick }) {
-  return (
-    <div
-      className={`dice ${className}`}
-      onClick={onClick}
-      onKeyUp={onClick}
-      role="button"
-      tabIndex={0}
-    >
-      {value}
-    </div>
-  );
-}
 
 const DICES = {
   d4: () => diceRoll(4),
@@ -55,25 +23,18 @@ function App() {
 
   const clearDices = () => { setDices([]); };
   const rerollDices = () => {
-    setDices((current) => current.map((dice) => (newDice(dice.name, DICES[dice.name]()))));
-  };
-
-  const calcTotal = () => {
-    const values = dices.map((dice) => ((dice.name === 'dF') ? fudgeToInt(dice.value) : dice.value));
-    const sum = values.reduce((total, current) => total + current);
-    return sum;
+    setDices((current) => (
+      current.map((dice) => (newDice(dice.name, DICES[dice.name]())))));
   };
 
   const diceButtons = Object.keys(DICES).map((diceKey) => (
-    <button
+    <DiceButton
       key={diceKey}
-      type="button"
+      value={diceKey}
       onClick={() => {
         setDices((current) => [...current, newDice(diceKey, DICES[diceKey]())]);
       }}
-    >
-      {diceKey}
-    </button>
+    />
   ));
 
   const visualDice = dices.map((dice, i) => (
@@ -81,7 +42,9 @@ function App() {
       key={i}
       className={dice.name}
       value={dice.value}
-      onClick={() => { setDices((current) => current.filter((_, j) => i !== j)); }}
+      onClick={() => {
+        setDices((current) => current.filter((_, j) => i !== j));
+      }}
     />
   ));
 
@@ -89,7 +52,7 @@ function App() {
     <div id="totalSum">
       Total:
       {' '}
-      {calcTotal()}
+      {calcTotal(dices)}
     </div>
   );
 
