@@ -77,3 +77,24 @@ button {
   color: black;
   font-size: 3em;
 }
+
+#mainButtons {
+  display: flex;
+}
+
+#operators {
+  display: flex;
+  flex-direction: column;
+}
+
+#diceButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 4em);
+  width: 100%;
+}
+
+#dices {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 5em;
+}
